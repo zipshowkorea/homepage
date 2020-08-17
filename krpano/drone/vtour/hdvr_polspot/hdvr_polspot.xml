@@ -1,0 +1,76 @@
+<krpano>
+	<!-- 
+	텍스트 폴스팟 샘플
+	<hotspot name="spot1" style="polspotstyle" ath="0" atv="0" bgcolor="0xFFCC00" font_color="#000000" title="타이틀" linkedscene="" scale="1" enabled="true" pole="true" />
+	-->
+	<include url="help_btn_polspot.xml" />
+
+	<hdvr_polspot_title_settings
+		edit_mode="false"
+		autorotate_control="true"
+		newpano_autorotate_start="false"
+		tooltips_hotspots="false"
+		loadscene_flags="MERGE"
+		loadscene_blend="OPENBLEND(1.2, 0.0, 0.2, 0.0, linear)"
+		/>
+
+	<style name="polspotstyle" url="" scale9grid="0|0|0|1" scale="1" scalechildren="false" edge="bottom" distorted="false"
+		enabled="get:hdvr_polspot_title_settings.edit_mode" capture="get:hdvr_polspot_title_settings.edit_mode" handcursor="false" keep="false" ondown="" />
+
+	<style name="hdvr_polspot_title_style" type="text" capture="true"
+		y="-16" align="top" enabled="true" renderer="webgl" 
+		vcenter="true" tooltip=""
+		selectable="false" 
+		padding="4 8" backgroundcolor="0xFFFFFF" 
+		border="true" borderwidth="1" roundedge="3" bordercolor="0x000000" borderalpha="1.0" backgroundalpha="1"
+		shadow="0.0" shadowrange="9" shadowcolor="0x000000" shadowalpha="1" 
+		css="font-size:12px; color:#2c2c2c2c; text-align:center; font-weight:lighter;"
+		onloaded="if(linkedscene AND hdvr_polspot_title_settings.tooltips_hotspots, copy(tooltip,scene[get(linkedscene)].title); loadstyle(skin_tooltips); );"
+
+		onclick="
+			if(linkedscene, set(enabled,false); skin_hidetooltips(); looktohotspot(get(motherspot));
+			loadscene(get(linkedscene),null,get(hdvr_polspot_title_settings.loadscene_flags),get(hdvr_polspot_title_settings.loadscene_blend)); 
+			if(layer[skin_scroll_window].onloaded, skin_updatescroll();); ); 
+			if(get(tempart),
+				set(autorotate.enabled, true);
+				set(tempart, false);
+			);
+			"
+		onover="
+	       	if((hdvr_polspot_title_settings.autorotate_control) AND (autorotate.enabled),
+				set(autorotate.enabled, false);
+				set(tempart, true);
+			);
+	       	"
+	       onout="
+	       	if(get(tempart),
+				set(autorotate.enabled, true);
+				set(tempart, false);
+			);
+			"
+	/>
+
+	<style name="skin_tooltips"
+	       onover.mouse="copy(layer[skin_tooltip].html, tooltip);
+	                     set(layer[skin_tooltip].visible, calc(webvr.isenabled ? false : true));
+	                     tween(layer[skin_tooltip].alpha, 1.0, 0.1);
+	                     asyncloop(hovering, copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
+	       onout.mouse="tween(layer[skin_tooltip].alpha, 0.0, 0.1, default, set(layer[skin_tooltip].visible,false), copy(layer[skin_tooltip].x,mouse.stagex); copy(layer[skin_tooltip].y,mouse.stagey); );"
+	       />
+
+	<layer name="skin_tooltip" keep="true" zorder="1000"
+	       type="text"
+	       parent="STAGE"
+	       visible="false" alpha="0" enabled="false"
+	       align="lefttop" edge="bottom" oy="-8" autoheight="true"
+	       background="true" backgroundcolor="get:skin_settings.tooltips_bgcolor" backgroundalpha="get:skin_settings.tooltips_bgalpha"
+	       border="false" bordercolor="0x000000" borderalpha="1.0" borderwidth="1.0" roundedge="3" padding="4 4"
+	       shadow="0.0" shadowrange="4.0" shadowangle="45" shadowcolor="0x000000" shadowalpha="1.0"
+	       textshadow="get:skin_settings.tooltips_text_shadow" textshadowrange="6.0" textshadowangle="90" textshadowcolor="0x000000" textshadowalpha="1.0"
+	       css="get:skin_settings.tooltips_text_css"
+	       html=""
+	       />
+	
+	<include url="hdvr_polspot_ac.xml" />
+
+</krpano>

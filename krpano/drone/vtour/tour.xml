@@ -1,0 +1,218 @@
+﻿<krpano version="1.20.7" title="Virtual Tour">
+
+	<include url="skin/vtourskin.xml" />
+	<include url="hdvr_polspot/hdvr_polspot.xml" />
+	<include url="hdvr_webbox/hdvr_webbox.xml" />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="false"
+	               maps_type="google"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="true"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="false"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="true"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext="loading..."
+	               layout_width="0"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="40"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x2D3E50"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="1"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="0"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+
+
+	<!-- startup action - load the first scene -->
+	<action name="startup" autorun="onstart">
+		if(startscene === null OR !scene[get(startscene)], copy(startscene,scene[0].name); );
+		loadscene(get(startscene), null, MERGE);
+		if(startactions !== null, startactions() );
+	</action>
+
+
+	
+	<scene name="scene_1" title="항공샷 1" onstart="" thumburl="panos/1.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/1.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/1.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="6.49" atv="22.41" bgcolor="0xFF0000" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-6.80" atv="22.45" bgcolor="0xFF8000" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-0.26" atv="23.73" bgcolor="0xFFFF00" font_color="#000" title="항공샷 5" linkedscene="scene_5" scale="1.4" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-0.66" atv="26.13" bgcolor="0x00FF00" font_color="#000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-1.49" atv="31.58" bgcolor="0x0040FF" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-2.51" atv="37.94" bgcolor="0x8000FF" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+		
+	</scene>
+
+	<scene name="scene_2" title="항공샷 2" onstart="" thumburl="panos/2.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/2.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/2.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="10.58" atv="19.94" bgcolor="0x8000FF" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-14.66" atv="20.33" bgcolor="0x0040FF" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-1.34" atv="25.69" bgcolor="0x00FF00" font_color="#000000" title="항공샷 5" linkedscene="scene_5" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-2.94" atv="32.01" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-7.45" atv="44.48" bgcolor="0xFF8000" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-134.37" atv="59.71" bgcolor="0xFF0000" font_color="#fff" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+
+	</scene>
+
+	<scene name="scene_3" title="항공샷 3" onstart="" thumburl="panos/3.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/3.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/3.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="18.17" atv="19.64" bgcolor="0x8000FF" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-23.32" atv="19.22" bgcolor="0x0040FF" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-3.40" atv="28.05" bgcolor="0x00FF00" font_color="#000000" title="항공샷 5" linkedscene="scene_5" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-10.31" atv="49.79" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-150.03" atv="32.09" bgcolor="0xFF8000" font_color="#fff" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-154.40" atv="0.65" bgcolor="0xFF0000" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+		
+	</scene>
+
+	<scene name="scene_4" title="항공샷 4" onstart="" thumburl="panos/4.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/4.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/4.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="31.67" atv="18.08" bgcolor="0x8000FF" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-32.97" atv="18.70" bgcolor="0x0040FF" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-2.27" atv="34.82" bgcolor="0x00FF00" font_color="#000000" title="항공샷 5" linkedscene="scene_5" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-166.15" atv="-4.78" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-166.12" atv="6.44" bgcolor="0xFF0000" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-165.84" atv="26.67" bgcolor="0xFF8000" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+
+	</scene>
+
+	<scene name="scene_5" title="항공샷 5" onstart="" thumburl="panos/5.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/5.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/5.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="75.92" atv="-4.82" bgcolor="0x8000FF" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-75.63" atv="-3.13" bgcolor="0x0040FF" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-164.28" atv="-17.55" bgcolor="0x00FF00" font_color="#000000" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-179.23" atv="10.98" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-169.34" atv="-9.54" bgcolor="0xFF0000" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-174.13" atv="0.95" bgcolor="0xFF8000" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+
+	</scene>
+
+	<scene name="scene_6" title="항공샷 왼쪽" onstart="" thumburl="panos/6.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/6.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/6.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="-0.59" atv="-1.29" bgcolor="0x8000FF" font_color="#fff" title="항공샷 오른쪽" linkedscene="scene_7" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="91.12" atv="-15.21" bgcolor="0x0040FF" font_color="#fff" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="29.45" atv="11.73" bgcolor="0x00FF00" font_color="#000000" title="항공샷 5" linkedscene="scene_5" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="71.39" atv="3.51" bgcolor="0xFF8000" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="52.90" atv="9.97" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="81.58" atv="-6.39" bgcolor="0xFF0000" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+
+	</scene>
+
+	<scene name="scene_7" title="항공샷 오른쪽" onstart="" thumburl="panos/7.tiles/thumb.jpg" lat="" lng="" heading="">
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/7.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/7.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,640,1280" />
+		</image>
+
+		<hotspot name="spot6" style="polspotstyle" ath="-79.06" atv="-15.40" bgcolor="0x8000FF" font_color="#fff" title="항공샷 1" linkedscene="scene_1" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot5" style="polspotstyle" ath="-7.08" atv="5.40" bgcolor="0x0040FF" font_color="#fff" title="항공샷 왼쪽" linkedscene="scene_6" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot4" style="polspotstyle" ath="-64.53" atv="19.48" bgcolor="0x00FF00" font_color="#000000" title="항공샷 5" linkedscene="scene_5" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot3" style="polspotstyle" ath="-74.40" atv="7.00" bgcolor="0xFFFF00" font_color="#000000" title="항공샷 4" linkedscene="scene_4" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot2" style="polspotstyle" ath="-74.40" atv="7.00" bgcolor="0xFF8000" font_color="#fff" title="항공샷 3" linkedscene="scene_3" scale="1" enabled="true" pole="true" />
+		<hotspot name="spot1" style="polspotstyle" ath="-77.04" atv="-4.14" bgcolor="0xFF0000" font_color="#fff" title="항공샷 2" linkedscene="scene_2" scale="1" enabled="true" pole="true" />
+
+	</scene>
+
+
+</krpano>

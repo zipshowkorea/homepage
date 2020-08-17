@@ -1,0 +1,442 @@
+<krpano lockscreen="false" volume_level="1">
+
+	<embeded_vod
+		edit_mode="true"
+		vod_display="true"
+		youtube_params="version=3&amp;vq=hd720&amp;autoplay=1&amp;autohide=1&amp;loop=1&amp;modestbranding=0&amp;rel=0&amp;showinfo=0&amp;controls="
+		/>
+
+	<include url="embeded_vod_edit.xml" devices="HTML5" />
+
+	<events name="embeded_vod_events" keep="true"
+		onxmlcomplete="if(embeded_vod.edit_mode AND device.desktop, set(events[embeded_vod_events].onnewpano, 'set(view.fovmax, 160); set(temp_spot, embeded_vod_first_name); set(view.fovmin, 30); set(view.maxpixelzoom, 3.0); set(hotspot[get(temp_spot)].atv, -90);'); set(events[embeded_vod_events].onkeydown, 'embededvodkeydown();');, ); if(embeded_vod.vod_display,,for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].visible, false)););"
+		onnewpano=""
+		onremovepano="if(hotspot[vod_by_vod].loaded, set(vodbyvod, get(hotspot[vod_by_vod].time));, set(vodbyvod, 0););"
+		onresize=""
+		onkeydown=""
+		/>
+
+	<style name="embeded_youtube"
+		devices="HTML5"
+		url="icons/block.png"
+		ath="0" atv="0"
+		distorted="true"
+		renderer="css3d"
+		onloaded="get_youtube_params(get(youtube_id));"
+		onclick="if(flying == 0.0, flyout_vod()); if(flying == 1.0, flyback_vod()); embeded_vod_video_updatestate(); copy(embeded_vod_name, name);"
+		/>
+
+	<style name="iframe_page_style"
+		devices="HTML5"
+		url="icons/block.png"
+		ath="0" atv="0"
+		distorted="true"
+		renderer="css3d"
+		onloaded="get_iframe_params(get(iframe_url));"
+		onclick="if(flying == 0.0, flyout_vod()); if(flying == 1.0, flyback_vod()); embeded_vod_video_updatestate(); copy(embeded_vod_name, name);"
+		/>
+
+	<style name="embeded_vod_style"
+		url="%SWFPATH%/plugins/videoplayer.swf"
+		alturl="%SWFPATH%/plugins/videoplayer.js"
+		autoalpha="false"
+		pausedonstart="false"
+		depth="off"
+		enabled="true"
+		loop="true"
+		volume="1.0"
+		playbackrate="1.0"
+		directionalsound="true"
+		range="90.0"
+		rangefalloff="1.0"
+		outofrangevolume="0.0"
+		preferredformat=""
+		buffertime="0.1"
+		ignoremetadata="false"
+		onvideoready="if(name == vod_by_vod, seek(get(vodbyvod)););"
+		onvideoplay="set(layer[embeded_play_pause].crop, 55|0|55|65); embeded_vod_video_updatestate();"
+		onvideopaused="set(layer[embeded_play_pause].crop, 0|0|55|65); embeded_vod_video_updatestate();"
+		onvideocomplete=""
+		onclick="if(flying == 0.0, flyout_vod()); if(flying == 1.0, flyback_vod()); embeded_vod_video_updatestate(); copy(embeded_vod_name, name);"
+		/>
+
+	<style name="embeded_vod_player_style" url="icons/player.png" align="left" scale="0.3" scale.mobile="0.3" alpha="0.6" visible="false" onover="tween(alpha, 1);" onout="tween(alpha, 0.6);" />
+
+	<layer name="embeded_vod_controls" group="vod_cont_ui" type="container" bgcolor="0x0d3668" bgroundedge="4" bgalpha="1" align="bottom" width="450" height="36" y="5" scale.mobile="0.7" visible="false" bgcapture="true" handcursor="false" keep="true" scalechildren="true" >
+		<layer name="embeded_play_pause" group="vod_cont_ui" style="embeded_vod_player_style" crop="0|0|55|65" x="10" y="0" onclick="hotspot[get(embeded_vod_name)].togglepause();" zorder="10" />
+
+		<layer name="embeded_vod_seekbar_container" group="vod_cont_ui" type="container" align="left" width="100%" height="18" x="42" y="-1" bgcapture="true" ondown="embeded_vod_ondownseeking();" >
+			<layer name="embeded_vod_seekbar" group="vod_cont_ui" type="container" bgcolor="0xFFFFFF" bgalpha="0.25" align="left" width="305" width.mobile="310" height="5">
+				<layer name="embeded_vod_loadbar" group="vod_cont_ui" type="container" bgcolor="0xFFFFFF" bgalpha="0.5" align="left" width="0" height="5" />
+				<layer name="embeded_vod_seekpos" group="vod_cont_ui" type="container" bgcolor="0xFFFFFF" bgalpha="1.0" align="left" edge="center" bgroundedge="20" width="16" height="16" />
+			</layer>
+		</layer>
+		<layer name="embeded_vod_time" group="vod_cont_ui" url="%SWFPATH%/plugins/textfield.swf" align="right" x="36" x.mobile="38" y="0" y.mobile="-3" enabled="false" background="false" border="false" css="font-size:12px; font-weight:bold; color:#FFFFFF; text-align:center" textshadow="1" html="0:00 / 0:00" alpha="0.7" />
+	</layer>
+
+	<hotspot name="embeded_vod_block" url="icons/block.png" flying="1" width="220%" height="220%" capture="false" alpha="0" handcursor="false" keep="true" autoalpha="true" enabled="false" zorder="9998" />
+
+	<action name="embeded_vod_ondownseeking">
+		asyncloop(pressed,
+			screentolayer(embeded_vod_seekbar, mouse.stagex,mouse.stagey, lx,ly);
+			calc(seekpos, lx / layer[embeded_vod_seekbar].pixelwidth);
+			clamp(seekpos, 0.0, 1.0);
+			embeded_vod_video_updatestate(seekpos);
+		  ,
+			hotspot[get(embeded_vod_name)].seek(calc((seekpos * 100) + '%'));
+		  );
+	</action>
+
+	<action name="embeded_vod_video_updatestate">
+		copy(t1, hotspot[get(embeded_vod_name)].time);
+		copy(t2, hotspot[get(embeded_vod_name)].totaltime);
+		if(%1 !== null, calc(t1, %1 * t2); );
+		div(t1_min, t1, 60);
+		mod(t1_sec, t1, 60);
+		Math.floor(t1_min);
+		Math.floor(t1_sec);
+		div(t2_min, t2, 60);
+		mod(t2_sec, t2, 60);
+		Math.floor(t2_min);
+		Math.floor(t2_sec);
+		calc(layer[embeded_vod_time].html, t1_min + ':' + (t1_sec LT 10 ? '0' : '') + t1_sec + ' / ' + t2_min + ':' + (t2_sec LT 10 ? '0' : '') + t2_sec);
+		calc(layer[embeded_vod_seekpos].x, (t1 / t2 * 100) + '%');
+		calc(layer[embeded_vod_loadbar].width, (hotspot[get(embeded_vod_name)].loadedbytes / hotspot[get(embeded_vod_name)].totalbytes * 100) + '%');
+	</action>
+
+	<action name="embeded_vod_automatic_fit_inside">
+		if(stagewidth GT stageheight,
+			set(hotspot[%1].height, 100%);
+			set(hotspot[%1].width, prop);
+			,
+			set(hotspot[%1].width, 65%);
+			set(hotspot[%1].height, prop);
+			);
+	</action>
+
+	<action name="flyout_vod">
+		if(lockscreen,
+			,
+			for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].enabled2, get(hotspot[get(i)].enabled)); set(hotspot[get(i)].enabled, false););
+			for(set(i,0), i LT layer.count, inc(i), set(layer[get(i)].visible2, get(layer[get(i)].visible)); set(layer[get(i)].visible, false));
+			);
+		for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].volume2, get(hotspot[get(i)].volume)); set(hotspot[get(i)].volume, 0.0));
+		for(set(i,0), i LT hotspot.count, inc(i), if(hotspot[get(i)].style == embeded_youtube OR hotspot[get(i)].style == iframe_page_style, set(hotspot[get(i)].visible, false)););
+		copy(backup_rx,rx);
+		copy(backup_ry,ry);
+		copy(backup_rz,rz);
+		copy(backup_alpha,alpha);
+		copy(backup_width,width);
+		copy(backup_height,height);
+		copy(backup_scale,scale);
+		copy(volume, volume_level);
+		set(zorder, 10000);
+		div(vodaspect, imagewidth, imageheight);
+
+		tween(rx, 0);
+		tween(ry, 0);
+		tween(rz, 0);
+		tween(scale, 1);
+		tween(alpha, 1);
+		mul(tempwidth, get(stagewidth), 1.7);
+
+		if(stagewidth GT stageheight,
+			tween(height, 100%);
+			set(width, prop);
+			,
+			tween(width, 60%);
+			set(height, prop);
+			);
+		tween(flying, 1.0,,, tween(hotspot[embeded_vod_block].alpha, 0.8);
+		set(control.usercontrol, off);
+
+		for(set(i,0), i LT layer.count, inc(i), if(layer[get(i)].group == vod_cont_ui, set(layer[get(i)].visible, true);););
+		set(layer[playing].visible,false);
+
+		setinterval(vod_seek_updates, 0.5, embeded_vod_video_updatestate()););
+		set(enabled, true);
+		if(device.mobile,
+			txtadd(tempevent, 'embeded_vod_automatic_fit_inside(',get(name),');');
+			set(events[embeded_vod_events].onresize, get(tempevent));
+			);
+		set_button_states2();
+	</action>
+
+	<action name="flyout_vod_target">
+		if(hotspot[%1].lockscreen,
+			,
+			for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].enabled2, get(hotspot[get(i)].enabled)); set(hotspot[get(i)].enabled, false););
+			for(set(i,0), i LT layer.count, inc(i), set(layer[get(i)].visible2, get(layer[get(i)].visible)); set(layer[get(i)].visible, false));
+			);
+		for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].volume2, get(hotspot[get(i)].volume)); set(hotspot[get(i)].volume, 0.0));
+		copy(backup_rx,hotspot[%1].rx);
+		copy(backup_ry,hotspot[%1].ry);
+		copy(backup_rz,hotspot[%1].rz);
+		copy(backup_alpha,hotspot[%1].alpha);
+		copy(backup_width,hotspot[%1].width);
+		copy(backup_height,hotspot[%1].height);
+		copy(backup_scale,hotspot[%1].scale);
+		copy(hotspot[%1].volume, volume_level);
+		set(hotspot[%1].zorder, 10000);
+		div(vodaspect, hotspot[%1].imagewidth, hotspot[%1].imageheight);
+
+		tween(hotspot[%1].rx, 0);
+		tween(hotspot[%1].ry, 0);
+		tween(hotspot[%1].rz, 0);
+		tween(hotspot[%1].scale, 1);
+		tween(hotspot[%1].alpha, 1);
+
+		mul(tempwidth, get(stagewidth), 1.7);
+
+		if(stagewidth GT stageheight,
+			tween(hotspot[%1].height, 100%);
+			set(hotspot[%1].width, prop);
+			,
+			tween(hotspot[%1].width, 60%);
+			set(hotspot[%1].height, prop);
+			);
+		tween(hotspot[%1].flying, 1.0,,, tween(hotspot[embeded_vod_block].alpha, 0.8);
+		set(control.usercontrol, off);
+
+		for(set(i,0), i LT layer.count, inc(i), if(layer[get(i)].group == vod_cont_ui, set(layer[get(i)].visible, true);););
+		set(layer[playing].visible,false);
+
+		setinterval(vod_seek_updates, 0.5, embeded_vod_video_updatestate()););
+		set(hotspot[%1].enabled, true);
+		if(device.mobile,
+			txtadd(tempevent, 'embeded_vod_automatic_fit_inside(',get(name),');');
+			set(events[embeded_vod_events].onresize, get(tempevent));
+			);
+		set_button_states2();
+		pausesound(bgsnd);
+		embeded_vod_video_updatestate(); copy(embeded_vod_name, hotspot[%1].name);
+		wait(0.1);
+		set(autorotate.enabled, false);
+	</action>
+
+	<action name="flyback_vod">
+		if(tempart,
+			set(autorotate.enabled, true);
+			);
+		copy(volume_level,hotspot[get(embeded_vod_name)].volume);
+		if(lockscreen,
+			for(set(i,0), i LT layer.count, inc(i), if(layer[get(i)].group == vod_cont_ui, set(layer[get(i)].visible, false);););
+			,
+			set(control.usercontrol, all);
+			);
+		set(events[embeded_vod_events].onresize, null);
+		tween(rx, get(backup_rx));
+		tween(ry, get(backup_ry));
+		tween(rz, get(backup_rz));
+		tween(alpha, get(backup_alpha));
+
+		if(width == prop,
+			set(width, get(stagewidth));
+			set(height, get(stageheight));
+			tween(height, get(backup_height));
+			tween(width, get(backup_width));
+			,
+			set(width, get(stagewidth));
+			calc(height, stageheight / 3);
+			tween(height, get(backup_height));
+			tween(width, get(backup_width));
+			);
+		tween(scale, get(backup_scale),,,set(zorder, 1); tween(hotspot[embeded_vod_block].alpha, 0); for(set(i,0), i LT hotspot.count, inc(i), if(hotspot[get(i)].style == embeded_youtube OR hotspot[get(i)].style == iframe_page_style, set(hotspot[get(i)].visible, true));););
+		tween(flying, 0.0);
+		if(lockscreen,
+			,
+			for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].enabled, get(hotspot[get(i)].enabled2)););
+			for(set(i,0), i LT layer.count, inc(i), set(layer[get(i)].visible, get(layer[get(i)].visible2)));
+			);
+		for(set(i,0), i LT hotspot.count, inc(i), set(hotspot[get(i)].volume, get(hotspot[get(i)].volume2)););
+		clearinterval(vod_seek_updates);
+		set(is_playing, false);
+	</action>
+
+	<layer name="sound_controls" type="container" group="vod_cont_ui" keep="true" visible="false" devices="desktop"
+		bgcolor="0x0d3668"
+		align="bottom"
+		edge="bottomleft"
+		x="190"
+		y="5"
+		height="36"
+		width="30"
+		scalechildren="true"
+		maxheight="166"
+		bgalpha="1"
+		bgroundedge="4"
+		bgcapture="true"
+		maskchildren="true"
+		onover="if(is_playing,show_slider());"
+		onout="hide_slider();" />
+
+	<style name="button" group="vod_cont_ui" keep="true" alpha="0.6" devices="desktop"
+		parent="sound_controls"
+		url="icons/audio-control-icons.png"
+		x="0"
+		y="0"
+		align="bottom"
+		edge="bottom"
+		onover="tween(alpha, 1);" onout="tween(alpha, 0.6);"
+		/>
+
+	<layer name="sound" devices="desktop"
+		style="button"
+		crop="0|0|36|36"
+		visible="true"
+		onovercrop="0|36|36|36"
+		onclick="play_sound_1();"
+		/>
+
+	<layer name="playing" devices="desktop"
+		style="button"
+		crop="108|0|36|36"
+		visible="false"
+		onovercrop="36|36|36|36"
+		onclick="pause_sound_1();"
+		/>
+
+	<layer name="slider_bg" visible="true" devices="desktop"
+		style="button"
+		crop="144|0|21|108"
+		oy="-45"
+		ox="-1"
+		alpha="1"
+		handcursor="false"
+		zorder="1"
+		/>
+
+	<layer name="slider_grip" group="vod_cont_ui" keep="true" visible="true" devices="desktop"
+		parent="slider_bg"
+		url="icons/audio-control-icons.png"
+		crop="108|36|21|10"
+		align="bottom"
+		edge="center"
+		ox="0"
+		zorder="3"
+		dragging="if(pressed,
+						sub(dy, drag_stagey, mouse.stagey);
+						div(dy2, dy, layer[sound_controls].scale);
+						add(newy, drag_currenty, dy2);
+						if(newy LT 0,
+							set(newy, 0));
+						if(newy GT layer[slider_bg].pixelheight,
+							copy(newy, layer[slider_bg].pixelheight));
+						copy(y, newy);
+						copy(layer[volume_level_indicator].height,newy);
+						div(hotspot[get(embeded_vod_name)].volume, newy, layer[slider_bg].pixelheight);
+						set_volume(get(hotspot[get(embeded_vod_name)].volume));
+						set_button_states();
+						delayedcall(0, dragging());
+					);"
+		ondown="copy(drag_currenty, y); copy(drag_stagey, mouse.stagey); dragging();"
+		/>
+
+	<layer name="volume_level_indicator" group="vod_cont_ui" keep="true" devices="desktop"
+		parent="slider_bg"
+		url="icons/audio-control-icons.png"
+		crop="144|108|21|108"
+		align="bottom"
+		edge="bottom"
+		zorder="2"
+		handcursor="false"
+		visible="true"
+		enabled="false"
+		height="0"
+		/>
+
+	<action name="play_sound_1">
+		set(is_playing, true);
+		show_slider();
+
+		calc(layer[volume_level_indicator].height, volume_level * 100 + 4);
+
+		copy(layer[slider_grip].y, layer[volume_level_indicator].height);
+		set(layer[sound].visible, false);
+		set(layer[playing].visible, true);
+	</action>
+
+	<action name="pause_sound_1">
+		tween(hotspot[get(embeded_vod_name)].volume, 0, 0.25, easeOutQuint);
+		set(is_playing, false);
+		hide_slider();
+		set(layer[playing].visible, false);
+		set(layer[sound].visible, true);
+		set(layer[sound].onclick, resume_sound_1());
+		copy(volume_level2, hotspot[get(embeded_vod_name)].volume);
+		set(volume_level, 0);
+		set_button_states2();
+	</action>
+
+	<action name="resume_sound_1">
+		set(is_playing, true);
+		show_slider();
+		tween(hotspot[get(embeded_vod_name)].volume, get(volume_level2), 0.25, easeInQuint);
+		set(layer[sound].visible, false);
+		set(layer[playing].visible, true);
+	</action>
+
+	<action name="set_volume">
+		set(hotspot[get(embeded_vod_name)].volume, %1)
+	</action>
+
+	<action name="show_slider">
+		set(HIDESLIDER,false);
+		tween(layer[sound_controls].height, get(layer[sound_controls].maxheight), 0.15, linear);
+	</action>
+
+	<action name="hide_slider">
+		set(HIDESLIDER,true);
+		if(is_playing, wait(0.5));
+		delayedcall(0,
+			if(HIDESLIDER,
+				tween(layer[sound_controls].height, 36, 0.15, linear);
+			);
+		);
+	</action>
+
+	<action name="set_button_states">
+		if(hotspot[get(embeded_vod_name)].volume == 0, set(layer[playing].crop, 72|36|36|36));
+		if(hotspot[get(embeded_vod_name)].volume == 0, set(layer[playing].onovercrop, 36|36|36|36));
+		if(hotspot[get(embeded_vod_name)].volume GT 0.001, set(layer[playing].crop, 36|0|36|36));
+		if(hotspot[get(embeded_vod_name)].volume GT 0.4, set(layer[playing].crop, 72|0|36|36));
+		if(hotspot[get(embeded_vod_name)].volume GT 0.7, set(layer[playing].crop, 108|0|36|36));
+		if(hotspot[get(embeded_vod_name)].volume GT 0.001, set(layer[playing].onovercrop, 36|36|36|36));
+	</action>
+
+	<action name="set_button_states2">
+		if(volume_level == 0, set(layer[sound].crop, 72|36|36|36));
+		if(volume_level == 0, set(layer[sound].onovercrop, 36|36|36|36));
+		if(volume_level GT 0.001, set(layer[sound].crop, 36|0|36|36));
+		if(volume_level GT 0.4, set(layer[sound].crop, 72|0|36|36));
+		if(volume_level GT 0.7, set(layer[sound].crop, 108|0|36|36));
+		if(volume_level GT 0.001, set(layer[sound].onovercrop, 36|36|36|36));
+	</action>
+
+	<action name="get_youtube_params">
+			txtadd(youtube_url, 'https://www.youtube.com/embed/','%1','?',get(embeded_vod.youtube_params),get(controller),'&amp;mute=',get(mute));
+			add_iframe('get(youtube_url)', get(width), get(height));
+	</action>
+
+	<action name="get_iframe_params">
+			add_iframe('%1', get(width), get(height));
+	</action>
+
+	<action name="add_iframe" type="Javascript">
+		var iframe = document.createElement("iframe");
+		iframe.style.position = "absolute";
+		iframe.style.left = 0;
+		iframe.style.top = 0;
+		iframe.style.width = "100%";
+		iframe.style.height = "100%";
+		iframe.style.border = 0;
+		iframe.scrolling = "auto";
+		iframe.setAttribute('allowfullscreen', true);
+		iframe.setAttribute('mozallowfullscreen', true);
+		iframe.setAttribute('webkitallowfullscreen', true);
+		iframe.src = args[1];
+		caller.registercontentsize(args[2], args[3]);
+		caller.sprite.appendChild(iframe);
+	</action>
+
+</krpano>
