@@ -1,219 +1,85 @@
-@charset "UTF-8";
-
-/* font open-source */
-@import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
-
-@font-face {
-  font-family: "SC_l";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-3Light.woff");
-}
-
-@font-face {
-  font-family: "SC_r";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff");
-}
-
-@font-face {
-  font-family: "SC_m";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff");
-}
-
-@font-face {
-  font-family: "SC_b";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-6Bold.woff");
-}
-@font-face {
-  font-family: "SC_bl";
-  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-9Black.woff");
-}
-
-/* basic setting */
 * {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+}
+html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    width: 100%;
+    height: 100%;
 }
 
-a {
-  text-decoration: none;
-  color: #333;
+.cover-page {
+    position: relative;
+    background-color: #fff;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-li {
-  list-style: none;
+.play_button {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    padding-top: 150px;
+    position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: table;
+    width: 100%;
 }
 
-/* header */
-
-#header {
-  width: 100%;
-  height: 12%;
-  background-color: #ffffff;
-  position: fixed;
-  z-index: 999;
+.play_button_image {
+    background-image: url('http://zipshowkorea.com/wp-content/uploads/2020/08/play-icon.svg');
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    max-width: 50vw;
+    max-height: 50vw;
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    margin-bottom: 4%;
 }
 
-#logo {
-  display: inline-block;
+.play_logo {
+    background-image: url('https://zipshowkorea.github.io/matterport/wordpress/logo.png');
+    display: inline-block;
+    width: 200px;
+    height: 60px;
+    background-size: contain;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+
+}
+.show-case-title {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    width: 90%;
+    padding: 0 25px;
+    -webkit-transform: translate(-50%, 50%);
+    transform: translate(-50%, 50%);
+    font-size: 2rem;
+    font-weight: 100;
+    text-shadow: 0 0 10px #0f1011;
+    max-width: 1600px;
+    color: #fff;
+    text-align: center;
+    font-family: Open Sans, sans-serif;
 }
 
-#logo a {
-  height: 100%;
-  display: inline-block;
-  position: relative;
-}
-
-#logo a img {
-  position: absolute;
-  transform: translate(42%, -50%);
-  top: 50%;
-}
-
-#ham_btn {
-  position: absolute;
-  top: 50%;
-  right: 3%;
-  transform: translateY(-50%);
-  cursor: pointer;
-}
-
-#ham_btn span {
-  width: 50px;
-  height: 5px;
-  border-radius: 10px;
-  background-color: #333;
-  display: block;
-  margin: 10px;
-}
-
-#gnb {
-  width: 20%;
-  height: 88%;
-  background-color: #fff;
-  text-align: center;
-  position: fixed;
-  right: 0;
-  bottom: 0;
-  display: none;
-}
-
-#gnb li {
-  font-family: SC_bl;
-  font-size: 20px;
-  margin: 50px 0;
-}
-
-/* Contents 영역 */
-
-#contetns {
-  width: 100%;
-}
-
-#fullpage {
-  width: 90%;
-  float: right;
-}
-
-#about1 {
-  height: 100%;
-  background-image: url('../img/about1.jpg');
-  background-size: 100%;
-}
-
-#about2 {
-  height: 100%;
-  background-image: url('../img/about2.jpg');
-  background-size: 100%;
-}
-
-#about2 .slide_text {
-  width: 22%;
-  height: 20%;
-}
-#service1 {
-  height: 100%;
-  background-image: url('../img/service1.jpg');
-  background-size: 100%;
-}
-
-#service2 {
-  height: 100%;
-  background-size: 100%;
-}
-
-#service3 {
-  height: 100%;
-  background-image: url('../img/service3.jpg');
-  background-size: 100%;
-  background-position-y: bottom;
-}
-
-
-#contact {
-  background-color: #E2E6FF;
-}
-
-#about2 iframe {
-  position: absolute;
-  width: 610px;
-  height: 350px;
-  left: 30.7%;
-  top: 28.2%;
-}
-#service1 iframe {
-  position: absolute;
-  width: 784px;
-  height: 480px;
-  left: 26.7%;
-  top: 17%;
-}
-
-#contact .slide_text {
-  background: none;
-}
-
-#contact .slide_title {
-  font-size: 4rem;
-  font-family: SC_bl;
-}
-
-#contact .form {
-  width: 60%;
-  height: 60%;
-  background: rgba(255,255,255,0.4);
-  border-radius: 10px;
-  position: absolute;
-  right: 10%;
-  top: 30%
-}
-
-#ask_desc {
-  position: absolute;
-  left: 50%;
-  top: 15%;
-  font-size: 1.5rem;
-  font-family: SC_r;
-}
-
-#ask_title {
-  font-family: SC_bl;
-  margin: 120px 0 50px;
-}
-
-#tel, #email {
-  margin: 0 0 30px;
-  font-family: SC_bl;
-}
-#ask_desc p span {
-  font-family: SC_m;
-  display: inline;
-  margin-right: 10px;
-}
-
-#history {
-  font-size: 18px;
-  text-align: center;
-}
-
-#history span {
-
+#showcase {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
 }
