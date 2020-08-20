@@ -3,7 +3,6 @@
 	텍스트 폴스팟 샘플
 	<hotspot name="spot1" style="polspotstyle" ath="0" atv="0" bgcolor="0xFFCC00" font_color="#000000" title="타이틀" linkedscene="" scale="1" enabled="true" pole="true" />
 	-->
-	<include url="help_btn_polspot.xml" />
 
 	<hdvr_polspot_title_settings
 		edit_mode="false"
