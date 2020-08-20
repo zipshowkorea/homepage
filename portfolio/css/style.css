@@ -1,6 +1,14 @@
 * {
     margin: 0;
 }
+html {
+    width: 100%;
+    height: 100%;
+}
+body {
+    width: 100%;
+    height: 100%;
+}
 
 html {
     width:100%;
@@ -19,7 +27,7 @@ body {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     width: 100%;
-    height:100%;
+    height: 100%;
     overflow: hidden;
 }
 
@@ -31,6 +39,9 @@ body {
     color: #fff;
     padding-top: 150px;
     position: absolute;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
     display: table;
     width: 100%;
 }
@@ -38,14 +49,15 @@ body {
 .play_button_image {
     background-image: url('http://zipshowkorea.com/wp-content/uploads/2020/08/play-icon.svg');
     display: inline-block;
-    width: 130px;
-    height: 145px;
+    width: 150px;
+    height: 150px;
     max-width: 50vw;
     max-height: 50vw;
     background-size: contain;
     background-position: 50% 50%;
     background-repeat: no-repeat;
     cursor: pointer;
+    margin-bottom: 4%;
 }
 
 .play_logo {
@@ -60,7 +72,7 @@ body {
 }
 .show-case-title {
     position: absolute;
-    bottom: 75%;
+    top: 25%;
     left: 50%;
     width: 90%;
     padding: 0 25px;
@@ -69,7 +81,6 @@ body {
     font-size: 2rem;
     font-weight: 100;
     text-shadow: 0 0 10px #0f1011;
-    margin: 0.67em 0;
     max-width: 1600px;
     color: #fff;
     text-align: center;
@@ -81,4 +92,8 @@ body {
     left: 0;
     top: 0;
     z-index: -1;
+<<<<<<< HEAD
+}11
+=======
 }
+>>>>>>> 1af5f3cc93f56c75c87a094ba7df51c3c67eaea9
