@@ -26,7 +26,7 @@
 }
 
 .play_button_image {
-    background-image: url('http://zipshowkorea.com/wp-content/uploads/2020/08/play-icon.svg');
+    background-image: url('https://zipshowkorea.github.io/matterport/kfcin/play-icon.svg');
     display: inline-block;
     width: 130px;
     height: 145px;
@@ -39,7 +39,7 @@
 }
 
 .play_logo {
-    background-image: url('https://zipshowkorea.github.io/matterport/wordpress/logo.png');
+    background-image: url('https://zipshowkorea.github.io/matterport/kfcin/zipshow_logo.png');
     display: inline-block;
     width: 200px;
     height: 60px;
